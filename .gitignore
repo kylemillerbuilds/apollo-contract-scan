@@ -1,0 +1,17 @@
+# Key material. Glob rather than exact names: an iCloud/Finder duplicate named
+# "wallet_data 2.txt" slipped past an exact-name rule once and was caught only
+# by a pre-commit secret scan. Anything wallet-shaped stays out, whatever it's
+# called. This repo should never contain any of it — the rule is here so it
+# cannot start to.
+.env
+.env*
+wallet_data*
+payer_wallet*
+*.key
+*.pem
+
+__pycache__/
+*.pyc
+.venv/
+.vercel/
+.DS_Store
