@@ -18,10 +18,22 @@ part worth copying. It cannot custody, move, or redirect funds. x402 payments
 settle directly from the customer's wallet to the operator's; the service's only
 capability is to *receive*.
 
-That constraint is deliberate. 2026 has produced a $45M AI-trading-agent breach,
-and the Grok-Bankr exploit in which hidden instructions were decoded by one agent
-and handed to another that held wallet permissions. The prevailing pattern gives
-agents keys and then tries to constrain them with prompts. A prompt is not a lock.
+That constraint is deliberate. Through the first half of 2026, AI-agent protocol
+vulnerabilities produced [more than $45M in cumulative
+losses](https://www.kucoin.com/blog/en-ai-trading-agent-vulnerability-2026-how-a-45m-crypto-security-breach-exposed-protocol-risks)
+— the largest single incident being Step Finance in January, roughly $40M drained
+after compromised agents made large transfers their permissions never should have
+allowed. Then in May came the [Grok-Bankr
+exploit](https://oecd.ai/en/incidents/2026-05-04-4a73): an attacker sent the
+agent's wallet a Bankr Club NFT, which in that ecosystem *conferred* elevated
+permissions, then sent an instruction hidden in Morse code. Roughly $150K–$200K
+in tokens left the wallet. SlowMist classed it a permission-chain attack.
+
+Read those two together and the failure mode is the same one twice: the agent
+held permissions, and the permissions were reachable. The prevailing pattern
+gives agents keys and then tries to constrain them with prompts. A prompt is not
+a lock — and in the Grok-Bankr case the permission escalation arrived as an
+*object someone else sent it*, which no prompt-level rule was ever going to stop.
 
 This is the other shape: a commercially useful agent whose deployment is
 structurally incapable of losing your money, because it never holds any.
