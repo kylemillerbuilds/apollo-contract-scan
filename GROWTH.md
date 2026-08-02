@@ -84,51 +84,46 @@ payTo `0x8C49…ae27` · asset = Base mainnet USDC `0x8335…2913`.
 **Lesson for the ledger:** a green status page is not a working system. Probe the
 failure path, not the happy one.
 
-### #7 — 2026-08-02 · PARKED. The listing that was never made, and the record that said it was.
+### #7 — 2026-08-02 · Listed, with the receipt written late — and an audit that got it backwards first
 
-This lane is closed. It never took a customer, and the honest reason is worth more
-than the service was.
+This entry exists because the ledger was missing one, and because the first
+attempt to write it was wrong. Both halves belong in an honest book.
 
-**What happened.** A research pass on 2026-08-02 reported the storefront "verified
-LISTED in the Bazaar (external fetch)" and recommended a price cut to remove a
-pricing confound from the 90-day kill test. An audit the same day fetched the same
-public index — Coinbase's CDP x402 discovery endpoint, the one the claim cited —
-and found **no entry for this service**: no matching URL, no matching payTo
-address, no matching description, at any page size. The service was live and
-answering. It had never been listed anywhere.
+**The listing is real.** The service appears in Coinbase's CDP x402 discovery
+index ("the Bazaar"): resource `https://apollo-contract-scan.vercel.app/scan`,
+network `base`, `maxAmountRequired` 500000 (that is $0.50 USDC at 6 decimals),
+`discoverable: true`, entry `lastUpdated` 2026-07-30T16:46:21Z. No milestone was
+recorded when it happened, so for three days this ledger and the world disagreed.
+**The gap was the bookkeeping, not the deployment.**
 
-**Why that mattered more than the price.** The kill criterion below reads "publicly
-listed for 90 days with zero non-Kyle payments." An unlisted service cannot fail
-that test, and it cannot pass it. Ninety days of silence would have measured only
-that unfindable things are not found. The experiment had a clock that was never
-started, a confound that did not exist, and a fix aimed at both.
+**The audit that nearly wrote the opposite.** On 2026-08-02 a review concluded the
+service had *never* been listed and drafted this entry as a post-mortem. That
+conclusion came from querying the discovery endpoint and reading the first page of
+results — 100 entries out of **14,810**. The index is paginated; page one is 0.7%
+of it. A complete sweep of all 14,810 listings found the entry immediately.
 
-**The decision.** Park, on evidence rather than on the clock. The category was
-already measured: contract-scanning-over-x402 is sellers selling to sellers —
-30+ listed competitors, none appearing in any earnings ranking, while the real
-buyers of contract security (wallets, exchanges, screeners) buy B2B subscriptions
-from vendors whose free tier covers 150K calls a month. A per-contract purchase is
-structurally wrong for per-call micropayments, and no listing repairs that.
+**Why the mistake is worth publishing.** The review was auditing a *different*
+document for making claims nobody could check. It then made a claim of exactly
+that kind: a negative — "it is not there" — established by searching a fraction of
+the space without stating that it was a fraction. **A negative result is only as
+good as the completeness of the search behind it, and completeness is the part you
+have to prove.** The tell was visible the whole time and went unread: the response
+carried `pagination: {limit: 100, total: 14810}`. The number that falsified the
+conclusion was sitting inside the evidence used to reach it.
 
-**What was actually built, and stands:** a receive-only x402 service where the
-internet-reachable limb holds no signing keys and cannot move funds — machine-
-checked with negative controls, not asserted; a proven mainnet USDC rail; a
-deterministic scanner with no model in the critical path. That pattern is the
-asset. The scanner was its demonstration, not its product.
+**What is still open, and is not being guessed at.** The index reports
+`l30DaysTotalCalls: 4` and `l30DaysUniquePayers: 1` for this resource, last called
+2026-07-30T16:46:21Z. Whether that single payer is the operator's own test traffic
+or a third party is **not yet established on-chain** — an attempt to settle it
+against public Base RPC endpoints failed on rate limits, and a positive control
+confirmed the queries were being rejected rather than returning a true zero. Until
+that is read properly, the payer is unknown, and "unknown" is what this book says.
 
-**The lesson, which is the reason this entry exists:** the research pass that
-reported the listing imposed a "no claim without a fetched artifact" rule on
-everyone else, and carried no artifacts of its own. Its cited workflow ID appears
-in exactly one file — itself. **A verification standard you apply only outward is
-not a standard.** The failure was not believing a wrong number; it was believing a
-number that no one could have checked, in the one lane whose entire product is a
-record you can check.
+**Proof:** complete sweep of the CDP discovery index 2026-08-02 — all 14,810
+listings retrieved across 15 pages, one match, payload retained · `/health` 200
+with `mainnet: true` on the same date · index entry `lastUpdated` 2026-07-30.
 
-**Proof:** CDP discovery endpoint queried 2026-08-02 (incl. `?limit=1000`), zero
-matches for this service · `/health` 200 with `mainnet: true` on the same date
-(the service was live, simply unlisted) · council ruling 057, 2026-07-30, which
-had already made listing conditional and was never satisfied.
-
-**Standing:** infrastructure kept, service left running, no further spend. Total
-real-money spend over the life of the lane: $0 against a $50 cap. Reopening
-requires a named buyer, not a better listing.
+**Lesson for the ledger:** *a clean scan over the wrong subset reports clean.* This
+book already carried that lesson from a secret scan that matched no files. It came
+back in a new costume — page one of a paginated index — and was caught only
+because the payload was kept and re-read. Keep the payload.
