@@ -111,17 +111,30 @@ have to prove.** The tell was visible the whole time and went unread: the respon
 carried `pagination: {limit: 100, total: 14810}`. The number that falsified the
 conclusion was sitting inside the evidence used to reach it.
 
-**What is still open, and is not being guessed at.** The index reports
-`l30DaysTotalCalls: 4` and `l30DaysUniquePayers: 1` for this resource, last called
-2026-07-30T16:46:21Z. Whether that single payer is the operator's own test traffic
-or a third party is **not yet established on-chain** — an attempt to settle it
-against public Base RPC endpoints failed on rate limits, and a positive control
-confirmed the queries were being rejected rather than returning a true zero. Until
-that is read properly, the payer is unknown, and "unknown" is what this book says.
+**The payments are real, and they are ours.** The listing reported
+`l30DaysTotalCalls: 4`, `l30DaysUniquePayers: 1`. Read off-chain: **four USDC
+payments of $0.50 each, all from a single address, all on 2026-07-30 between
+16:33 and 16:46** — and that address is the operator's own burner wallet, named
+as such in this repo's own tooling. The last payment landed in the same minute
+the Bazaar listing was created.
+
+So: **the mainnet rail has now carried genuine signed, settled payments** — which
+the earlier milestone could not claim, having only probed it with an unsigned
+request. And **the stranger count is still zero.** Both facts had gone unrecorded
+for three days. Self-pay proves plumbing; it is not revenue, and this book will
+not let the two blur.
 
 **Proof:** complete sweep of the CDP discovery index 2026-08-02 — all 14,810
 listings retrieved across 15 pages, one match, payload retained · `/health` 200
-with `mainnet: true` on the same date · index entry `lastUpdated` 2026-07-30.
+with `mainnet: true` on the same date · index entry `lastUpdated` 2026-07-30 ·
+four inbound USDC transfers read from a public Base explorer, **with a positive
+control in the same run** to prove the endpoint reports transfers when they exist.
+
+**Method note, because the first attempt got this wrong too.** An initial on-chain
+sweep reported "0 transfers." That was false — the RPC was rejecting the queries
+with HTTP 403, and a positive control exposed it. **A rate-limited endpoint and an
+empty result set look identical unless you ask a question you know the answer to.**
+The zero was discarded, not published.
 
 **Lesson for the ledger:** *a clean scan over the wrong subset reports clean.* This
 book already carried that lesson from a secret scan that matched no files. It came
